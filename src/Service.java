@@ -9,6 +9,10 @@ public class Service {
         this.tasks.put(task.getId(), task);
     }
 
+    public Collection<Tasks> getAllTasks(){
+        return this.tasks.values();
+    }
+
     public Collection<Tasks> getTasksForDay(LocalDate date) {
         List<Tasks> tasksForDay = new ArrayList<>();
         for (Tasks task : tasks.values()) {

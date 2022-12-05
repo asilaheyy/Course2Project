@@ -19,7 +19,27 @@ public class Main {
         SCHEDULE.addTask(new YearlyTask("C", "A", LocalDateTime.now(), TaskType.PERSONAL, Repeatability.YEARLY));
         SCHEDULE.addTask(new OnceTask("D", "A", LocalDateTime.now().plusHours(4), TaskType.WORK, Repeatability.ONCE));
         showTasksForDay(scanner);
+        remove(scanner);
 
+    }
+
+
+    private static void remove(Scanner scanner) {
+        for (Tasks tasks : SCHEDULE.getAllTasks()) {
+            System.out.printf("%d. %s",
+                    tasks.getId(), tasks.getTitle());
+        }
+        while (true) {
+            try {
+                System.out.println("Выберите задачу для удаления");
+                String idLine = scanner.nextLine();
+                int id = Integer.parseInt(idLine);
+                SCHEDULE.removeTask(id);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Введен неверный id задачи");
+            }
+        }
     }
 
     private static void showTasksForDay(Scanner scanner) { //Выводим все задачи на день
@@ -27,7 +47,7 @@ public class Main {
         Collection<Tasks> tasksForDate = SCHEDULE.getTasksForDay(localDate);
         System.out.println("Задачи на " + localDate.format(DATE_FORMAT));
         for (Tasks tasks : tasksForDate) {
-            System.out.printf("\t"+" ~%s~ "+"\t"+" %s: %s , %s %n",
+            System.out.printf("\t" + " ~%s~ " + "\t" + " %s: %s , %s %n",
                     taskTypeLocalization(tasks.getTaskType()),
                     tasks.getTitle(),
                     tasks.getDateTime().format(TIME_FORMAT),
@@ -35,25 +55,24 @@ public class Main {
         }
     }
 
-    private static LocalDate readDate(Scanner scanner){
+    private static LocalDate readDate(Scanner scanner) {
         while (true) {
             try {
-            System.out.print("Введите дату для задачи в формате dd.MM.yyyy: ");
-            String dateline = scanner.nextLine();
-            return LocalDate.parse(dateline, DATE_FORMAT);
-            } catch (DateTimeParseException e){
+                System.out.print("Введите дату для задачи в формате dd.MM.yyyy: ");
+                String dateline = scanner.nextLine();
+                return LocalDate.parse(dateline, DATE_FORMAT);
+            } catch (DateTimeParseException e) {
                 System.out.println("Введите дату в правильнпм формате");
             }
         }
     }
 
-    private static String taskTypeLocalization(TaskType taskType){
-        return switch (taskType){
+    private static String taskTypeLocalization(TaskType taskType) {
+        return switch (taskType) {
             case WORK -> "Рабочая задача ";
             case PERSONAL -> "Личная задача ";
             default -> "Задача ";
         };
-
     }
 }
 
