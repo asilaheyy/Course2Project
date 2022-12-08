@@ -58,6 +58,6 @@ public abstract class Tasks {
 
     public abstract boolean tasksForDate(LocalDate localDate); //выдает все задачи на дату
 
-    public abstract Repeatability getRepeatability(); //возвращает тип повтора
+    public  Repeatability getRepeatability(){return repeatability;} //возвращает тип повтора
 
 }

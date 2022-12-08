@@ -15,7 +15,7 @@ public class MonthlyTask extends Tasks {
     public boolean tasksForDate(LocalDate localDate) {
         LocalDate taskDate = this.getDateTime().toLocalDate();
         return taskDate.equals(localDate) ||
-                (taskDate.isAfter(localDate) && localDate.getDayOfMonth() == taskDate.getDayOfMonth());
+                (taskDate.isBefore(localDate) && localDate.getDayOfMonth() == taskDate.getDayOfMonth());
         /*задача появляется в календаре если введенная дата равна поставленной дате
          ИЛИ введеная дата после поставленной даты И день месяца введенноя даты равен дню месяца поставленной даты (Ежемесячная)*/
     }
