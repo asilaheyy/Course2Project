@@ -1,15 +1,13 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Objects;
 
-public abstract class Tasks {
+public class Tasks {
 
     private final String title;
     private final String task;
     private final LocalDateTime dateTime;
     private final int id;
-    private static int counter = 1;
+    public static int counter = 1;
 
     private final TaskType taskType;
     private Repeatability repeatability;
@@ -56,7 +54,8 @@ public abstract class Tasks {
         return taskType;
     }
 
-    public abstract boolean tasksForDate(LocalDate localDate); //выдает все задачи на дату
+    public boolean tasksForDate(LocalDate localDate){
+        return localDate.equals(this.getDateTime().toLocalDate());}//выдает все задачи на дату
 
     public  Repeatability getRepeatability(){return repeatability;} //возвращает тип повтора
 

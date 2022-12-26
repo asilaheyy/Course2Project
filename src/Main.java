@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -47,7 +48,6 @@ public class Main {
         SCHEDULE.addTask(new MonthlyTask("B", "A", LocalDateTime.now().plusHours(2), TaskType.WORK, Repeatability.MONTHLY));
         SCHEDULE.addTask(new YearlyTask("C", "A", LocalDateTime.now(), TaskType.PERSONAL, Repeatability.YEARLY));
         SCHEDULE.addTask(new OnceTask("D", "A", LocalDateTime.now().plusHours(4), TaskType.WORK, Repeatability.ONCE));
-
 
 
     }
@@ -128,12 +128,79 @@ public class Main {
         );
     }
 
-    private static void inputTask(Scanner scanner) {
+    private static Tasks inputTask(Scanner scanner) {
         System.out.print("Введите название задачи: ");
-        String title = scanner.next();
+        scanner.nextLine();
+        String title = scanner.nextLine();
+        if (Objects.equals(title, null)) {
+            while (Objects.equals(title, null)) {
+                System.out.println("Некорректный заголовок задачи, введите еще раз: ");
+                title = scanner.nextLine();
+            }
+        }
+        System.out.print("Введите описание задачи: ");
+        String task = scanner.nextLine();
+        if (task == null) {
+            while (task == null) {
+                System.out.println("Некорректно введено описание задачи, введите еще раз");
+                task = scanner.nextLine();
+            }
+        }
+        System.out.print("Введите год: ");
+        int year = scanner.nextInt();
+        if (year < LocalDate.now().getYear()) {
+            while (year < LocalDate.now().getYear()) {
+                System.out.print("Год не может быть меньше текущего. Введите еще раз: ");
+                year = scanner.nextInt();
+            }
+        }
+        System.out.print("Введите номер месяца: ");
+        int month = scanner.nextInt();
+        if (month <= 0 || month > 12) {
+            while (month <= 0 || month > 12) {
+                System.out.print("Номера месяцев идут с 1 до 12. Введите еще раз: ");
+                month = scanner.nextInt();
+            }
+        }
+        System.out.print("Введите день: ");
+        int day = scanner.nextInt();
+        LocalDate ld = LocalDate.of(year, month, 1);
+        if (day <= 0 || day > ld.lengthOfMonth()) {
+            while ((day <= 0 || day > ld.lengthOfMonth())) {
+                System.out.print("Некорректно введено число месяца. Введите еще раз: ");
+                day = scanner.nextInt();
+            }
+        }
+        System.out.print("Введите час: ");
+        int hour = scanner.nextInt();
+        while (hour < 0 || hour > 24) {
+            System.out.print("Неверно указано время. Введите час еще раз: ");
+            hour = scanner.nextInt();
+        }
+        System.out.print("Введите минуты: ");
+        int minute = scanner.nextInt();
+        while (minute < 0 || minute > 60) {
+            System.out.print("Неверно указано время. Введите минуты еще раз: ");
+            minute = scanner.nextInt();
+        }
 
-    }
+        LocalDateTime dateTime = LocalDateTime.of(year, month, day, hour, minute);
+
+
+        System.out.print("Задача личная или рабочая? ");
+        String tasktype = scanner.next();
+
+        System.out.print("Введите периодичность задачи: ");
+        String repeatability = scanner.next();
+
+        return new Tasks(title,task,dateTime,tasktype,repeatability);
+
+        }
 }
+
+
+
+
 
 
 
