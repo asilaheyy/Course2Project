@@ -188,12 +188,17 @@ public class Main {
 
 
         System.out.print("Задача личная или рабочая? ");
-        String tasktype = scanner.next();
+        TaskType taskType = TaskType.valueOf(scanner.next());
 
         System.out.print("Введите периодичность задачи: ");
-        String repeatability = scanner.next();
+        Repeatability repeatability = Repeatability.valueOf(scanner.next());
 
-        return new Tasks(title,task,dateTime,tasktype,repeatability);
+        try {
+            return new Tasks(title, task, dateTime, taskType, repeatability);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Task " + Tasks.counter + " " + e.getMessage());
+        }
+        return null;
 
         }
 }
